@@ -6,8 +6,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 @Slf4j
 public class OSTests {
+    @Target(ElementType.METHOD)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Test
+    @EnabledOnOs(OS.MAC)
+    @interface TestOnMac {
+    }
 
     @Test
     @EnabledOnOs( { OS.MAC })
@@ -21,5 +32,11 @@ public class OSTests {
     void onlyOnWindows() {
         log.info("Tests for windows");
         Assertions.assertEquals(1, 2);
+    }
+
+    @TestOnMac
+    void onlyOnMacWithCustomAnnotation() {
+        log.info("Test for mac with custom annotation");
+        Assertions.assertEquals(1, 1);
     }
 }
