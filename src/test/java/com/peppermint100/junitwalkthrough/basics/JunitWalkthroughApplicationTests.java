@@ -1,4 +1,4 @@
-package com.peppermint100.junitwalkthrough;
+package com.peppermint100.junitwalkthrough.basics;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

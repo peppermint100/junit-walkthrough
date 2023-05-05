@@ -1,4 +1,4 @@
-package com.peppermint100.junitwalkthrough;
+package com.peppermint100.junitwalkthrough.basics;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
