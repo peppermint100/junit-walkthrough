@@ -65,6 +65,4 @@ public class AssertionsTests {
         });
         assertEquals("result", actualResult);
     }
-
-
 }
