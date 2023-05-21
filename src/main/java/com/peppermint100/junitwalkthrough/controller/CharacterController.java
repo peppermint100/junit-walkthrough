@@ -3,7 +3,6 @@ package com.peppermint100.junitwalkthrough.controller;
 import com.peppermint100.junitwalkthrough.service.CharacterService;
 import com.peppermint100.junitwalkthrough.vo.CharacterDto;
 import com.peppermint100.junitwalkthrough.vo.RequestCharacter;
-import com.peppermint100.junitwalkthrough.vo.RequestModifyCharacter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
