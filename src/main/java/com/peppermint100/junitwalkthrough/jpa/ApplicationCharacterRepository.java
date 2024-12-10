@@ -1,13 +1,11 @@
 package com.peppermint100.junitwalkthrough.jpa;
 
-import com.peppermint100.junitwalkthrough.vo.CharacterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
