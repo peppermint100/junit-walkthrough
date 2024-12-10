@@ -30,7 +30,7 @@ public class CharacterService {
 
     public CharacterDto addCharacter(String name) {
         ApplicationCharacter newCharacter = new ApplicationCharacter(name);
-        repository.saveCharacter(newCharacter);
+        repository.save(newCharacter);
         return CharacterDto.from(newCharacter);
     }
 
@@ -38,6 +38,6 @@ public class CharacterService {
         ApplicationCharacter character = repository.findById(id)
                 .orElseThrow(CharacterDoesNotExistsException::new);
         character.updateName(newCharacterName);
-        repository.saveCharacter(character);
+        repository.save(character);
     }
 }

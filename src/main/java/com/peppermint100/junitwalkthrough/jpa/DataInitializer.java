@@ -27,7 +27,7 @@ public class DataInitializer implements ApplicationRunner {
                 new ApplicationCharacter("tiger"));
 
         for (ApplicationCharacter character : applicationCharacterList) {
-            repository.saveCharacter(character);
+            repository.save(character);
         }
     }
 }

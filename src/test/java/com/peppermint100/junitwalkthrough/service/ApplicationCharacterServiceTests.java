@@ -104,7 +104,7 @@ public class ApplicationCharacterServiceTests {
         service.updateCharacter(1, name);
 
         verify(repository).findById(1);
-        verify(repository).saveCharacter(characterCaptor.capture());
+        verify(repository).save(characterCaptor.capture());
 
         assertEquals(name, characterCaptor.getValue().getName());
     }
