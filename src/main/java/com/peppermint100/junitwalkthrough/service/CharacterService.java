@@ -1,40 +1,43 @@
 package com.peppermint100.junitwalkthrough.service;
 
 import com.peppermint100.junitwalkthrough.exception.CharacterDoesNotExistsException;
-import com.peppermint100.junitwalkthrough.repository.CharacterRepository;
+import com.peppermint100.junitwalkthrough.jpa.ApplicationCharacter;
+import com.peppermint100.junitwalkthrough.jpa.ApplicationCharacterRepository;
 import com.peppermint100.junitwalkthrough.vo.CharacterDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CharacterService {
 
-    private final CharacterRepository repository;
-
-    public CharacterService(CharacterRepository repository) {
-        this.repository = repository;
-    }
+    private final ApplicationCharacterRepository repository;
 
     public List<CharacterDto> getAllCharacters() {
-        return repository.findAll();
+        return repository.findAll().stream().map(CharacterDto::from).collect(Collectors.toList());
     }
 
     public CharacterDto getCharacterById(int id) {
-        return repository.findById(id)
+        ApplicationCharacter character = repository.findById(id)
                 .orElseThrow(CharacterDoesNotExistsException::new);
+
+        return CharacterDto.from(character);
     }
 
     public CharacterDto addCharacter(String name) {
-        CharacterDto newCharacter = CharacterDto.withName(name);
+        ApplicationCharacter newCharacter = new ApplicationCharacter(name);
         repository.saveCharacter(newCharacter);
-        return newCharacter;
+        return CharacterDto.from(newCharacter);
     }
 
     public void updateCharacter(int id, String newCharacterName) {
-        CharacterDto character = repository.findById(id)
+        ApplicationCharacter character = repository.findById(id)
                 .orElseThrow(CharacterDoesNotExistsException::new);
-        character.setName(newCharacterName);
+        character.updateName(newCharacterName);
         repository.saveCharacter(character);
     }
 }

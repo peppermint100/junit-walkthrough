@@ -1,7 +1,7 @@
 package com.peppermint100.junitwalkthrough.service;
 
 import com.peppermint100.junitwalkthrough.exception.CharacterDoesNotExistsException;
-import com.peppermint100.junitwalkthrough.repository.CharacterRepository;
+import com.peppermint100.junitwalkthrough.jpa.ApplicationCharacterRepository;
 import com.peppermint100.junitwalkthrough.vo.CharacterDto;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,9 +19,9 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class CharacterServiceTests {
+public class ApplicationCharacterServiceTests {
 
-    @Mock private CharacterRepository repository;
+    @Mock private ApplicationCharacterRepository repository;
     private CharacterService service;
 //    private AutoCloseable autoCloseable;
 
