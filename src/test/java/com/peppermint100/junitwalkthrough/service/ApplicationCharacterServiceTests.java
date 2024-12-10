@@ -1,7 +1,8 @@
 package com.peppermint100.junitwalkthrough.service;
 
 import com.peppermint100.junitwalkthrough.exception.CharacterDoesNotExistsException;
-import com.peppermint100.junitwalkthrough.repository.CharacterRepository;
+import com.peppermint100.junitwalkthrough.jpa.ApplicationCharacter;
+import com.peppermint100.junitwalkthrough.jpa.ApplicationCharacterRepository;
 import com.peppermint100.junitwalkthrough.vo.CharacterDto;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,9 +20,9 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class CharacterServiceTests {
+public class ApplicationCharacterServiceTests {
 
-    @Mock private CharacterRepository repository;
+    @Mock private ApplicationCharacterRepository repository;
     private CharacterService service;
 //    private AutoCloseable autoCloseable;
 
@@ -40,14 +41,14 @@ public class CharacterServiceTests {
     @Test
     @DisplayName("Repository 내부 findAll을 잘 호출하는지 테스트")
     void getAllCharactersTest() {
-        final List<CharacterDto> characters = new ArrayList<>(Arrays.asList(
-                new CharacterDto(1, "bear"),
-                new CharacterDto(2, "rabbit"),
-                new CharacterDto(3, "turtle"),
-                new CharacterDto(4, "deer"),
-                new CharacterDto(5, "dog"),
-                new CharacterDto(6, "cat"),
-                new CharacterDto(7, "tiger")
+        final List<ApplicationCharacter> characters = new ArrayList<>(Arrays.asList(
+                new ApplicationCharacter(1, "bear"),
+                new ApplicationCharacter(2, "rabbit"),
+                new ApplicationCharacter(3, "turtle"),
+                new ApplicationCharacter(4, "deer"),
+                new ApplicationCharacter(5, "dog"),
+                new ApplicationCharacter(6, "cat"),
+                new ApplicationCharacter(7, "tiger")
         ));
 
         when(repository.findAll()).thenReturn(characters);
@@ -58,7 +59,7 @@ public class CharacterServiceTests {
     @Test
     @DisplayName("getCharacterById repository 메소드 호출, id 일치 테스트")
     void getCharacterByIdTest() {
-        when(repository.findById(1)).thenReturn(Optional.of(new CharacterDto(1, "giraffe")));
+        when(repository.findById(1)).thenReturn(Optional.of(new ApplicationCharacter(1, "giraffe")));
 
         CharacterDto character = service.getCharacterById(1);
 
@@ -78,17 +79,6 @@ public class CharacterServiceTests {
     }
 
     @Test
-    @DisplayName("addCharacter verify, 이름 테스트")
-    void addCharacterTest() {
-        String name = "giraffe";
-
-        CharacterDto character = service.addCharacter(name);
-
-        verify(repository).saveCharacter(character);
-        assertEquals(name, character.getName());
-    }
-
-    @Test
     @DisplayName("존재하지 않는 캐릭터를 updateCharacter")
     void updateCharacterTestInvalid() {
         String name = "giraffe";
@@ -105,16 +95,16 @@ public class CharacterServiceTests {
     void updateCharacterTestValid() {
         String name = "giraffe";
 
-        when(repository.findById(1)).thenReturn(Optional.of(new CharacterDto(1, "giraffe")));
+        when(repository.findById(1)).thenReturn(Optional.of(new ApplicationCharacter(1, "giraffe")));
         /*
             ArgumentCaptor를 통해 내부 값을 캡처 후 assertEquals에서 접근
          */
-        ArgumentCaptor<CharacterDto> characterCaptor = ArgumentCaptor.forClass(CharacterDto.class);
+        ArgumentCaptor<ApplicationCharacter> characterCaptor = ArgumentCaptor.forClass(ApplicationCharacter.class);
 
         service.updateCharacter(1, name);
 
         verify(repository).findById(1);
-        verify(repository).saveCharacter(characterCaptor.capture());
+        verify(repository).save(characterCaptor.capture());
 
         assertEquals(name, characterCaptor.getValue().getName());
     }
